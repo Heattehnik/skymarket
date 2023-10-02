@@ -7,7 +7,7 @@ app_name = UsersConfig.name
 
 users_router = SimpleRouter()
 
-users_router.register("users", UserViewSet, basename="users")
+users_router.register("", UserViewSet, basename="users")
 
 urlpatterns = [
     path("", include(users_router.urls)),
