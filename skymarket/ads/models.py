@@ -6,7 +6,8 @@ from users.models import User
 class Ad(models.Model):
     title = models.CharField(max_length=50, verbose_name="Объявление")
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name="Цена")
-    description = models.TextField(verbose_name="Описание")
+    description = models.TextField(verbose_name="Описание", null=True, blank=True)
+    image = models.ImageField(upload_to='images', verbose_name='Изображение', null=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Автор")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Создано")
 
