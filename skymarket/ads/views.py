@@ -51,6 +51,20 @@ class UserAdsListView(ListAPIView):
         return queryset
 
 
+class AdCommentRetrieve(ViewSet):
+    permission_classes = [IsAuthenticated]
+
+    @action(methods=['get'], detail=True)
+    def retrieve(self, request, ad_id, comment_id):
+        queryset = Comment.objects.get(pk=comment_id)
+        serializer = CommentSerializer(queryset)
+        return Response(serializer.data)
+
+    @action(methods=['patch'], detail=True)
+    def change(self):
+        pass
+
+
 class AdCommentsView(ViewSet):
     permission_classes = [IsAuthenticated]
 

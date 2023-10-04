@@ -17,7 +17,8 @@ class User(AbstractUser):
     last_name = models.CharField(max_length=50, verbose_name="Фамилия")
     phone = models.CharField(max_length=20, verbose_name="Телефон")
     role = models.CharField(max_length=10, choices=UserRoleEnum.choices)
-    avatar = models.ImageField(verbose_name="Аватар", null=True, blank=True)
+    avatar = models.ImageField(upload_to='django_media/avatars', default='avatars/default.png',
+                               verbose_name="Аватар", null=True, blank=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ['first_name', 'last_name', 'phone', "role"]

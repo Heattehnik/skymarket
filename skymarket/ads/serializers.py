@@ -3,12 +3,17 @@ from rest_framework import serializers
 from ads.models import Ad, Comment
 
 
-# TODO Сериалайзеры. Предлагаем Вам такую структуру, однако вы вправе использовать свою
-
 class CommentSerializer(serializers.ModelSerializer):
+    author_id = serializers.ReadOnlyField(source='author.id')
+    author_first_name = serializers.ReadOnlyField(source='author.first_name')
+    author_last_name = serializers.ReadOnlyField(source='author.last_name')
+    ad_id = serializers.ReadOnlyField(source='ad.id')
+    # TODO avatars/default.png 'utf-8' codec can't decode byte 0x89 in position 0: invalid start byte
+    # author_image = serializers.ReadOnlyField(source='author.avatar')
+
     class Meta:
         model = Comment
-        fields = "__all__"
+        fields = ('id', 'text', 'author_id', 'author_first_name', 'author_last_name', 'created_at', 'ad_id')
 
 
 class AdSerializer(serializers.ModelSerializer):
