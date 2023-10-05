@@ -56,13 +56,48 @@ class AdCommentRetrieve(ViewSet):
 
     @action(methods=['get'], detail=True)
     def retrieve(self, request, ad_id, comment_id):
-        queryset = Comment.objects.get(pk=comment_id)
-        serializer = CommentSerializer(queryset)
-        return Response(serializer.data)
+        try:
+            # Получите комментарий по заданному comment_id
+            comment = Comment.objects.get(pk=comment_id)
+
+            # Создайте сериализатор для комментария
+            serializer = CommentSerializer(comment)
+
+            return Response(serializer.data)
+
+        except Comment.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
     @action(methods=['patch'], detail=True)
-    def change(self):
-        pass
+    def change(self, request, ad_id, comment_id):
+        try:
+            # Получите комментарий по заданному comment_id
+            comment = Comment.objects.get(pk=comment_id)
+
+            # Примените данные из PATCH-запроса к комментарию
+            serializer = CommentSerializer(comment, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        except Comment.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+    @action(methods=['delete'], detail=True)
+    def destroy(self, request, ad_id, comment_id):
+        try:
+            # Получите комментарий по заданному comment_id
+            comment = Comment.objects.get(pk=comment_id)
+
+            # Удалите комментарий
+            comment.delete()
+
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        except Comment.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 class AdCommentsView(ViewSet):
@@ -105,17 +140,3 @@ class CommentViewSet(viewsets.ModelViewSet):
     pagination_class = CommentsPaginator
     serializer_class = CommentSerializer
     queryset = Comment.objects.all()
-
-
-# class CreateCommentView(CreateAPIView):
-#     permission_classes = [IsAuthenticated]
-#     serializer_class = CommentSerializer
-#
-#     def perform_create(self, serializer):
-#         # Получите текущего пользователя (автора объявления)
-#         author = self.request.user
-#
-#         # Сохраните объект объявления с указанным автором
-#         serializer.save(author=author)
-
-

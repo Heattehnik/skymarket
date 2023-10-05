@@ -17,7 +17,7 @@ urlpatterns = [
     ),
     path(
         "ads/<int:ad_id>/comments/<int:comment_id>/",
-        AdCommentRetrieve.as_view({"get": "retrieve", "patch": "change"}),
+        AdCommentRetrieve.as_view({"get": "retrieve", "patch": "change", "delete": "destroy"}),
         name="ad_comment",
     ),
 ] + ad.urls

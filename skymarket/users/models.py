@@ -6,8 +6,8 @@ from django.utils.translation import gettext_lazy as _
 
 
 class UserRoleEnum(models.TextChoices):
-    USER = "USER"
-    ADMIN = "ADMIN"
+    USER = "user"
+    ADMIN = "admin"
 
 
 class User(AbstractUser):
@@ -16,12 +16,12 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=50, verbose_name="Имя")
     last_name = models.CharField(max_length=50, verbose_name="Фамилия")
     phone = models.CharField(max_length=20, verbose_name="Телефон")
-    role = models.CharField(max_length=10, choices=UserRoleEnum.choices)
+    role = models.CharField(max_length=10, choices=UserRoleEnum.choices, default=UserRoleEnum.USER)
     avatar = models.ImageField(upload_to='django_media/avatars', default='avatars/default.png',
                                verbose_name="Аватар", null=True, blank=True)
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'phone', "role"]
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'phone']
 
     objects = UserManager()
 

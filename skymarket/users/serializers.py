@@ -1,4 +1,4 @@
-from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer
+from djoser.serializers import UserCreateSerializer as BaseUserRegistrationSerializer, UserSerializer
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
@@ -11,5 +11,9 @@ class UserRegistrationSerializer(BaseUserRegistrationSerializer):
     pass
 
 
-class CurrentUserSerializer(serializers.ModelSerializer):
-    pass
+class CurrentUserSerializer(UserSerializer):
+    author_first_name = serializers.ReadOnlyField(source="author.first_name")
+    class Meta:
+        model = User
+        fields = '__all__'
+
