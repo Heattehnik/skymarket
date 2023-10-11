@@ -11,6 +11,5 @@ users_router = SimpleRouter()
 users_router.register("", UserViewSet, basename="users")
 
 urlpatterns = [
-    path('users/me/', UserView.as_view(), name="user_retrieve"),
     path("", include(users_router.urls)),
 ]

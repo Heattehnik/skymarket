@@ -21,8 +21,6 @@ schema_view = get_schema_view(
    permission_classes=(permissions.AllowAny,),
 )
 
-# TODO здесь необходимо подклюючит нужные нам urls к проекту
-
 urlpatterns = [
     path("api/admin/", admin.site.urls),
     path('api/users/', include('users.urls', namespace='users')),
